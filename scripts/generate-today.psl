@@ -1,0 +1,35 @@
+# 获取当前日期
+$date = Get-Date -Format "yyyy-MM-dd"
+$filePath = "journals\$date.md"
+
+# 如果 journals 文件夹不存在则创建
+if (-not (Test-Path "journals")) {
+    New-Item -ItemType Directory -Path "journals" | Out-Null
+}
+
+# 如果文件不存在则创建模板
+if (-not (Test-Path $filePath)) {
+    $content = @"
+# 感恩日记 - $date
+
+## 🌅 今天值得感恩的人
+
+1. 
+2. 
+
+## 🌄 今天值得感恩的事
+
+1. 
+2. 
+
+## 🌟 今天的小确幸
+
+
+## 💭 今天的感受
+
+"@
+    $content | Out-File -FilePath $filePath -Encoding UTF8
+    Write-Host "✅ 已创建 $filePath"
+} else {
+    Write-Host "⚠️ $filePath 已存在"
+}
